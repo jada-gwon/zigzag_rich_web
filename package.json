@@ -136,5 +136,8 @@
     "presets": [
       "react-app"
     ]
+  },
+  "devDependencies": {
+    "react-svg-loader": "^3.0.3"
   }
 }
