@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import styled from 'styled-components';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
@@ -10,6 +11,17 @@ type RootProps = {
   dispatch: Dispatch<any>;
   errors: string[];
 };
+const StyledRoot = styled.div`
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+`;
+
+const StyledHeader = styled.div`
+  flex: 0 0 44px;
+  background-color: #5b36ac;
+`;
+
 const Root: React.FC<RootProps> = ({ dispatch, errors }) => {
   useEffect(() => {
     dispatch(fetchingInitailData() as any);
@@ -20,9 +32,10 @@ const Root: React.FC<RootProps> = ({ dispatch, errors }) => {
   }
   return (
     <BrowserRouter>
-      <div>
+      <StyledRoot>
+        <StyledHeader />
         <Route />
-      </div>
+      </StyledRoot>
     </BrowserRouter>
   );
 };

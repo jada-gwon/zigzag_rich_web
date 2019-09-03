@@ -54,7 +54,7 @@ const ChatItem: React.FC<ChatItemProps> = ({
     </PreviewWrapper>
     <div>
       <Link to={`chats/${chatId}`}>
-        {/* TODO Show Date using date-fns */}
+        {/* TODO: Show Date using date-fns */}
         <StyledDate>{sentAt}</StyledDate>
         {unReadMessageCount > 0 && <Badge>{unReadMessageCount}</Badge>}
       </Link>

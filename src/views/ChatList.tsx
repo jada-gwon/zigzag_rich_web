@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { StoreState, ChatRoom, User } from '../models';
@@ -10,9 +11,16 @@ interface ChatListProps {
   users: User[];
 }
 
+const StyledChatListView = styled.div`
+  height: 100%;
+  overflow: scroll;
+  padding-top: 10px;
+  background-color: #f9f9fb;
+`;
+
 const ChatList: React.FC<ChatListProps> = ({ chats, users }) => {
   return (
-    <div>
+    <StyledChatListView>
       <ul aria-label="대화 리스트">
         {chats.map((chat) => (
           <ChatItem
@@ -26,7 +34,7 @@ const ChatList: React.FC<ChatListProps> = ({ chats, users }) => {
           />
         ))}
       </ul>
-    </div>
+    </StyledChatListView>
   );
 };
 

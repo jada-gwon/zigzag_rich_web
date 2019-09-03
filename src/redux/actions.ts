@@ -27,7 +27,6 @@ export const selectChatWithLoginUser = createAction(
 
 export function selectChat(chatId: string) {
   return function(dispatch: Dispatch<any>, getStore: () => StoreState) {
-    console.log(getStore());
     const { loginUser } = getStore();
     dispatch(selectChatWithLoginUser(chatId, loginUser.id));
   };

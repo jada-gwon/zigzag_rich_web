@@ -6,6 +6,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import { selectChat, fetchingMessages } from '../redux/actions';
 import { StoreState, Message } from '../models';
 import MessageItem from '../components/MessageItem';
+import SendMessageForm from '../components/SendMessageForm';
 
 type RouteChatProps = RouteComponentProps<{
   id: string;
@@ -17,8 +18,16 @@ interface ChatProps extends RouteChatProps {
   loginUserId: string;
 }
 
+const StyledChatView = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: #f9f9fb;
+`;
+
 const StyledMessageList = styled.ul`
-  padding: 20px 16px 70px;
+  padding: 20px 16px;
+  flex: 1;
 `;
 
 const Chat: React.FC<ChatProps> = ({
@@ -36,7 +45,7 @@ const Chat: React.FC<ChatProps> = ({
     }
   }, []);
   return (
-    <div>
+    <StyledChatView>
       <StyledMessageList>
         {messages.map((m) => (
           <MessageItem
@@ -46,10 +55,13 @@ const Chat: React.FC<ChatProps> = ({
             isReceived={m.addresserId !== loginUserId}
           />
         ))}
-        {/* TODO Remove */}
+        {/* TODO: Remove */}
         <MessageItem contents="해외 출장 중입니다." isReceived={false} />
       </StyledMessageList>
-    </div>
+      <div>
+        <SendMessageForm />
+      </div>
+    </StyledChatView>
   );
 };
 
