@@ -68,7 +68,6 @@ const Chat: React.FC<ChatProps> = ({
     <StyledChatView>
       <StyledMessageList ref={refList as any}>
         <TransitionGroup component={null}>
-          {/* TODO: 스크롤 맨 아래에 가있게 만들기 */}
           {messages.map((m) => (
             <CSSTransition key={m.id} timeout={400}>
               <MessageItem
