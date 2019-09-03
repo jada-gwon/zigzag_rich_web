@@ -1,6 +1,7 @@
+import uuidv4 from 'uuid/v4';
 import { Dispatch } from 'redux';
 import { createAction } from 'redux-act';
-import { InitialData, Message, StoreState } from '../models';
+import { InitialData, Message, StoreState, ContentsType } from '../models';
 import fetchInitialData from '../api/fetchInitialData';
 import fetchMessages from '../api/fetchMessages';
 
@@ -54,17 +55,30 @@ export function fetchingMessages(chatId: string) {
     }
   };
 }
-// export const sendMessage = createAction(
-//   'select chat',
-//   (
-//     addresserId: string,
-//     chatId: string,
-//     contents: string,
-//     contentsType: ContentsType,
-//   ) => ({
-//     addresserId,
-//     chatId,
-//     contents,
-//     contentsType,
-//   }),
-// );
+
+export const createMessage = createAction(
+  'select chat',
+  (message: Message) => message,
+);
+
+export function sendMessage(
+  chatId: string,
+  contents: string,
+  contentsType: ContentsType,
+) {
+  return function(dispatch: Dispatch<any>, getStore: () => StoreState) {
+    const { loginUser } = getStore();
+    const message: Message = {
+      id: uuidv4(),
+      sentAt: new Date(),
+      contentsType,
+      contents,
+      addresserId: loginUser.id,
+      chatId,
+      readBy: [loginUser.id],
+    };
+    dispatch(createMessage(message));
+
+    // TODO send server requesr;
+  };
+}

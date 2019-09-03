@@ -1,7 +1,6 @@
 import uuidv4 from 'uuid/v4';
 import subDays from 'date-fns/subDays';
-import setHours from 'date-fns/setHours';
-import setMinutes from 'date-fns/setMinutes';
+import subMinutes from 'date-fns/subMinutes';
 import { User, ChatGroup, Message, ContentsType, ChatRoom } from '../models';
 
 import profile1 from '../assets/img-profile-1.jpg';
@@ -63,8 +62,7 @@ const messageData = [
     chatId: chatGroupMocks[0].id,
     contentsType: ContentsType.text,
     isRead: false,
-    h: 9,
-    m: 32,
+    m: 4,
   },
   {
     contents: '출근했냐구?',
@@ -72,8 +70,7 @@ const messageData = [
     chatId: chatGroupMocks[0].id,
     contentsType: ContentsType.text,
     isRead: false,
-    h: 9,
-    m: 31,
+    m: 3,
   },
   {
     contents: '출근했니?',
@@ -81,7 +78,6 @@ const messageData = [
     chatId: chatGroupMocks[0].id,
     contentsType: ContentsType.text,
     isRead: true,
-    h: 9,
     m: 1,
   },
   {
@@ -134,22 +130,19 @@ const messageData = [
   },
 ];
 
-const messageMocks: Message[] = messageData.map(
-  ({ h = 0, m = 0, isRead, ...d }) => {
-    const sentAt =
-      h && m
-        ? setMinutes(setHours(new Date(), h), m)
-        : subDays(new Date(), Math.floor(Math.random() * 6));
-    return {
-      ...d,
-      id: uuidv4(),
-      sentAt,
-      createAt: sentAt,
-      readBy: isRead ? [d.addresserId, loginUserMock.id] : [d.addresserId],
-      failed: false,
-    };
-  },
-);
+const messageMocks: Message[] = messageData.map(({ m = 0, isRead, ...d }) => {
+  const sentAt = m
+    ? subMinutes(new Date(), m)
+    : subDays(new Date(), Math.ceil(Math.random() * 6));
+  return {
+    ...d,
+    id: uuidv4(),
+    sentAt,
+    createAt: sentAt,
+    readBy: isRead ? [d.addresserId, loginUserMock.id] : [d.addresserId],
+    failed: false,
+  };
+});
 
 const chatRoomMocks: ChatRoom[] = chatGroupMocks.map((group) => {
   const messages = messageMocks

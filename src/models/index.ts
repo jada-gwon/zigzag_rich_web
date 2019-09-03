@@ -11,14 +11,13 @@ export interface User {
 
 export interface Message {
   id: string;
-  createAt: Date;
+  createAt?: Date;
   sentAt: Date;
   contentsType: ContentsType;
   contents: string;
   addresserId: string;
   chatId: string;
   readBy: string[];
-  failed: boolean;
 }
 
 export interface ChatGroup {

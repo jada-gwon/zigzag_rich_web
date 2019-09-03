@@ -11,6 +11,7 @@ const StyledName = styled.div`
   color: #464052;
   font-size: 16px;
   height: 19px;
+  line-height: 17px;
   margin-bottom: 3px;
   font-weight: bold;
 `;

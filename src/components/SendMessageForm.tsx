@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { Dispatch } from 'redux';
+import { connect } from 'react-redux';
 import IconSend from '../assets/icon-send.svg';
+import { sendMessage } from '../redux/actions';
+import { ContentsType } from '../models';
 
 const StyledForm = styled.div`
   display: flex;
@@ -37,16 +41,34 @@ const StyledButton = styled.button`
   }
 `;
 
-const SendMessageForm: React.FC = () => {
+const SendMessageForm: React.FC<{
+  chatId: string;
+  dispatch: Dispatch<any>;
+}> = ({ chatId, dispatch }) => {
   const [value, setValue] = useState('');
   return (
-    // TODO: onSubmit
-    <form onSubmit={(e) => e.preventDefault()}>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        dispatch(sendMessage(chatId, value.trim(), ContentsType.text));
+        setValue('');
+      }}
+    >
       <StyledForm>
         <StyledTextarea
           placeholder="메시지를 입력하세요.."
           value={value}
           onChange={(e) => setValue(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.keyCode === 13 && !e.shiftKey) {
+              e.preventDefault();
+              const contents = value.trim();
+              if (contents) {
+                dispatch(sendMessage(chatId, contents, ContentsType.text));
+                setValue('');
+              }
+            }
+          }}
         />
         <StyledButton type="submit">
           <IconSend />
@@ -56,4 +78,4 @@ const SendMessageForm: React.FC = () => {
   );
 };
 
-export default SendMessageForm;
+export default connect()(SendMessageForm);

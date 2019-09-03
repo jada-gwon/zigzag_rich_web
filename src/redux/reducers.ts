@@ -20,6 +20,23 @@ const chats = createReducer(
         ...state.slice(targetIndex + 1),
       ];
     },
+    [actions.createMessage as any]: (state, payload) => {
+      const targetIndex = state.findIndex(
+        (chat: ChatRoom) => chat.id === payload.chatId,
+      );
+      return [
+        ...state.slice(0, targetIndex),
+        {
+          ...(state[targetIndex] as object),
+          lastMessage: {
+            contents: payload.contents,
+            contentsType: payload.contentsType,
+            sentAt: payload.sentAt,
+          },
+        },
+        ...state.slice(targetIndex + 1),
+      ];
+    },
   },
   [],
 );
@@ -45,6 +62,7 @@ const messages = createReducer(
       ...state,
       ...payload,
     ],
+    [actions.createMessage as any]: (state, payload) => [...state, payload],
   },
   [],
 );

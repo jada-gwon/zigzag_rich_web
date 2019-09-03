@@ -66,7 +66,7 @@ const Chat: React.FC<ChatProps> = ({
         ))}
       </StyledMessageList>
       <FormWrap>
-        <SendMessageForm />
+        <SendMessageForm chatId={id} />
       </FormWrap>
     </StyledChatView>
   );
