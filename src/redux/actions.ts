@@ -79,6 +79,6 @@ export function sendMessage(
     };
     dispatch(createMessage(message));
 
-    // TODO send server requesr;
+    // TODO: send server requesr;
   };
 }

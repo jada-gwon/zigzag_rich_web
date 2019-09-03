@@ -56,6 +56,7 @@ const Chat: React.FC<ChatProps> = ({
   return (
     <StyledChatView>
       <StyledMessageList>
+        {/* TODO: 스크롤 맨 아래에 가있게 만들기 */}
         {messages.map((m) => (
           <MessageItem
             key={m.id}

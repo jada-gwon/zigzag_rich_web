@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import Contents from './Contents';
+import ImageUploader from '../ImageUploader';
 import { StoreState } from '../../models';
 import IconUpload from '../../assets/icon-upload.svg';
 import IconSearch from '../../assets/icon-search.svg';
@@ -29,17 +30,24 @@ interface ChatHeaderProps extends RouteChatHeaderProps {
   title: string;
 }
 
-const ChatHeader: React.FC<ChatHeaderProps> = ({ title = '알수없음' }) => {
+const ChatHeader: React.FC<ChatHeaderProps> = ({
+  title = '알수없음',
+  match: {
+    params: { id },
+  },
+}) => {
+  const [openUploader, setOpenUploader] = useState(false);
   return (
     <SlideInOutRight>
       <Contents title={title}>
-        <StyledButton>
+        <StyledButton onClick={() => setOpenUploader(!openUploader)}>
           <IconUpload />
         </StyledButton>
         <StyledButton>
           <IconSearch />
         </StyledButton>
       </Contents>
+      <ImageUploader chatId={id} open={openUploader} />
     </SlideInOutRight>
   );
 };
