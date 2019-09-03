@@ -7,6 +7,7 @@ import { selectChat, fetchingMessages } from '../redux/actions';
 import { StoreState, Message } from '../models';
 import MessageItem from '../components/MessageItem';
 import SendMessageForm from '../components/SendMessageForm';
+import { SlideInOutRight } from '../components/TransitionSlide';
 
 type RouteChatProps = RouteComponentProps<{
   id: string;
@@ -18,16 +19,21 @@ interface ChatProps extends RouteChatProps {
   loginUserId: string;
 }
 
-const StyledChatView = styled.div`
-  display: flex;
-  flex-direction: column;
+const StyledChatView = styled(SlideInOutRight)`
   height: 100%;
   background-color: #f9f9fb;
+  position: relative;
 `;
 
 const StyledMessageList = styled.ul`
   padding: 20px 16px;
   flex: 1;
+`;
+
+const FormWrap = styled.div`
+  position: absolute;
+  width: 100%;
+  bottom: 0;
 `;
 
 const Chat: React.FC<ChatProps> = ({
@@ -55,12 +61,10 @@ const Chat: React.FC<ChatProps> = ({
             isReceived={m.addresserId !== loginUserId}
           />
         ))}
-        {/* TODO: Remove */}
-        <MessageItem contents="해외 출장 중입니다." isReceived={false} />
       </StyledMessageList>
-      <div>
+      <FormWrap>
         <SendMessageForm />
-      </div>
+      </FormWrap>
     </StyledChatView>
   );
 };

@@ -6,6 +6,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { fetchingInitailData, popError } from './redux/actions';
 import Route from './routes';
 import { StoreState } from './models';
+import Header from './components/Header';
 
 type RootProps = {
   dispatch: Dispatch<any>;
@@ -15,11 +16,6 @@ const StyledRoot = styled.div`
   height: 100vh;
   display: flex;
   flex-direction: column;
-`;
-
-const StyledHeader = styled.div`
-  flex: 0 0 44px;
-  background-color: #5b36ac;
 `;
 
 const Root: React.FC<RootProps> = ({ dispatch, errors }) => {
@@ -33,7 +29,7 @@ const Root: React.FC<RootProps> = ({ dispatch, errors }) => {
   return (
     <BrowserRouter>
       <StyledRoot>
-        <StyledHeader />
+        <Header />
         <Route />
       </StyledRoot>
     </BrowserRouter>

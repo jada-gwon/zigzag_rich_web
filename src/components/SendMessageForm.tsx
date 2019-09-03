@@ -28,7 +28,6 @@ const StyledTextarea = styled.textarea`
 
 const StyledButton = styled.button`
   width: 50px;
-  height: 50px;
   border-radius: 25px;
   border: none;
   background-color: #5b36ac;

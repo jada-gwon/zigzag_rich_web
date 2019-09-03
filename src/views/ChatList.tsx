@@ -4,6 +4,7 @@ import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { StoreState, ChatRoom, User } from '../models';
 import ChatItem from '../components/ChatItem';
+import { SlideInOutLeft } from '../components/TransitionSlide';
 
 interface ChatListProps {
   dispatch: Dispatch<any>;
@@ -11,10 +12,10 @@ interface ChatListProps {
   users: User[];
 }
 
-const StyledChatListView = styled.div`
-  height: 100%;
+const StyledChatListView = styled(SlideInOutLeft)`
   overflow: scroll;
   padding-top: 10px;
+  height: 100%;
   background-color: #f9f9fb;
 `;
 
