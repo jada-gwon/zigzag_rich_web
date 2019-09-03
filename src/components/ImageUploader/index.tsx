@@ -4,6 +4,8 @@ import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import ImageItem from './ImageItem';
+import { sendMessage } from '../../redux/actions';
+import { ContentsType } from '../../models';
 import Img1 from '../../assets/img-shot-1.jpg';
 import Img2 from '../../assets/img-shot-2.jpg';
 import Img3 from '../../assets/img-shot-3.jpg';
@@ -58,7 +60,7 @@ const ImageUploader: React.FC<{
   open: boolean;
   chatId: string;
   dispatch: Dispatch<any>;
-}> = ({ open }) => {
+}> = ({ open, dispatch, chatId }) => {
   return (
     <CSSTransition
       in={open}
@@ -72,8 +74,14 @@ const ImageUploader: React.FC<{
       <TransitionUploader>
         <TransitionGroup component={StyledUL}>
           {IMAGES.map((img, i) => (
-            // eslint-disable-next-line react/no-array-index-key
-            <ImageItem key={i} src={img} />
+            <ImageItem
+              // eslint-disable-next-line react/no-array-index-key
+              key={i}
+              src={img}
+              onClick={(contents: string) => {
+                dispatch(sendMessage(chatId, contents, ContentsType.image));
+              }}
+            />
           ))}
         </TransitionGroup>
       </TransitionUploader>

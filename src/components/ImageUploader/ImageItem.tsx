@@ -45,7 +45,20 @@ const TransitionImage = styled(StyledLI)`
   }
 `;
 
-const ImageItem: React.FC<{ src: string }> = ({ src }) => {
+const StyledButton = styled.button`
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  :focus {
+    outline: none;
+  }
+`;
+
+const ImageItem: React.FC<{
+  src: string;
+  onClick: (contents: string) => void;
+}> = ({ src, onClick }) => {
   const [inProp, updateIn] = useState(false);
   useEffect(() => {
     updateIn(true);
@@ -62,10 +75,16 @@ const ImageItem: React.FC<{ src: string }> = ({ src }) => {
       in={inProp}
     >
       <TransitionImage>
-        <StyledImageWrap>
-          {/* eslint-disable-next-line jsx-a11y/alt-text */}
-          <img src={src} />
-        </StyledImageWrap>
+        <StyledButton
+          onClick={() => {
+            onClick(src);
+          }}
+        >
+          <StyledImageWrap>
+            {/* eslint-disable-next-line jsx-a11y/alt-text */}
+            <img src={src} />
+          </StyledImageWrap>
+        </StyledButton>
       </TransitionImage>
     </CSSTransition>
   );

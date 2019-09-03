@@ -36,7 +36,7 @@ const Preview: React.FC<PreivewProps> = ({ name, message, messageType }) => (
   <StyledPreview>
     <StyledName>{name}</StyledName>
     <StyledMessage>
-      {messageType === ContentsType.text ? message : messageType}
+      {messageType === ContentsType.text ? message : `(${messageType})`}
     </StyledMessage>
   </StyledPreview>
 );

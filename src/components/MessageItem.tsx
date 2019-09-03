@@ -4,7 +4,7 @@ import { ContentsType } from '../models';
 
 interface MessageItemProps {
   contents: string;
-  contentsType?: ContentsType;
+  contentsType: ContentsType;
   isReceived: boolean;
 }
 
@@ -29,10 +29,29 @@ const StyledMessageItem = styled.div<{ isReceived: boolean }>`
       : '0 2px 4px 0 rgba(91, 56, 177, 0.4);'};
 `;
 
-const MessageItem: React.FC<MessageItemProps> = ({ contents, isReceived }) => (
-  <StyledMessageItemWrap left={isReceived}>
-    <StyledMessageItem isReceived={isReceived}>{contents}</StyledMessageItem>
-  </StyledMessageItemWrap>
-);
+const StyledImage = styled.img`
+  width: 200px;
+  border-radius: 12px;
+`;
+
+const MessageItem: React.FC<MessageItemProps> = ({
+  contents,
+  isReceived,
+  contentsType,
+}) => {
+  if (contentsType === ContentsType.image) {
+    return (
+      <StyledMessageItemWrap left={isReceived}>
+        {/* eslint-disable-next-line jsx-a11y/alt-text */}
+        <StyledImage src={contents} />
+      </StyledMessageItemWrap>
+    );
+  }
+  return (
+    <StyledMessageItemWrap left={isReceived}>
+      <StyledMessageItem isReceived={isReceived}>{contents}</StyledMessageItem>
+    </StyledMessageItemWrap>
+  );
+};
 
 export default MessageItem;

@@ -1,6 +1,6 @@
 export enum ContentsType {
   text = 'text',
-  image = 'image',
+  image = '사진',
 }
 
 export interface User {
