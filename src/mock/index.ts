@@ -51,8 +51,8 @@ const userData = [
 ];
 
 const userMocks: User[] = userData.map((d) => ({ ...d, id: uuidv4() }));
-const chatGroupMocks: ChatGroup[] = userMocks.map((user) => ({
-  id: uuidv4(),
+const chatGroupMocks: ChatGroup[] = userMocks.map((user, i) => ({
+  id: i.toString(),
   members: [loginUserMock.id, user.id],
 }));
 
@@ -166,7 +166,6 @@ const chatRoomMocks: ChatRoom[] = chatGroupMocks.map((group) => {
 });
 
 function getMessageMock(chatId: string): Message[] {
-  console.log(messageMocks);
   return messageMocks.filter((m) => m.chatId === chatId);
 }
 

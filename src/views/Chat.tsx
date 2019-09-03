@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
+import styled from 'styled-components';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { RouteComponentProps, Link } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router-dom';
 import { selectChat, fetchingMessages } from '../redux/actions';
 import { StoreState, Message } from '../models';
 import MessageItem from '../components/MessageItem';
@@ -15,6 +16,10 @@ interface ChatProps extends RouteChatProps {
   messages: Message[];
   loginUserId: string;
 }
+
+const StyledMessageList = styled.ul`
+  padding: 20px 16px 70px;
+`;
 
 const Chat: React.FC<ChatProps> = ({
   match: {
@@ -32,21 +37,18 @@ const Chat: React.FC<ChatProps> = ({
   }, []);
   return (
     <div>
-      <Link to="/chats">back</Link>
-      <h1>
-        chat
-        {id}
-      </h1>
-      <ul>
+      <StyledMessageList>
         {messages.map((m) => (
           <MessageItem
             key={m.id}
             contents={m.contents}
             contentsType={m.contentsType}
-            isReceived={m.addresserId === loginUserId}
+            isReceived={m.addresserId !== loginUserId}
           />
         ))}
-      </ul>
+        {/* TODO Remove */}
+        <MessageItem contents="해외 출장 중입니다." isReceived={false} />
+      </StyledMessageList>
     </div>
   );
 };

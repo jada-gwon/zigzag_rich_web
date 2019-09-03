@@ -1,14 +1,38 @@
 import React from 'react';
+import styled from 'styled-components';
 import { ContentsType } from '../models';
 
 interface MessageItemProps {
   contents: string;
-  contentsType: ContentsType;
+  contentsType?: ContentsType;
   isReceived: boolean;
 }
 
-const MessageItem: React.FC<MessageItemProps> = ({ contents }) => (
-  <li>{contents}</li>
+const StyledMessageItemWrap = styled.li<{ left: boolean }>`
+  padding: 5px 0;
+  display: block;
+  text-align: ${(props) => (props.left ? 'left' : 'right')};
+`;
+
+const StyledMessageItem = styled.div<{ isReceived: boolean }>`
+  display: inline-block;
+  border-radius: 12px;
+  padding: 12px;
+  font-size: 14px;
+  line-height: 17px;
+  max-width: 80%;
+  background-color: ${(props) => (props.isReceived ? '#fff' : '#5b36ac')};
+  color: ${(props) => (props.isReceived ? '#363a42' : '#fff')};
+  box-shadow: ${(props) =>
+    props.isReceived
+      ? '0 2px 4px 0 rgba(0, 0, 0, 0.1);'
+      : '0 2px 4px 0 rgba(91, 56, 177, 0.4);'};
+`;
+
+const MessageItem: React.FC<MessageItemProps> = ({ contents, isReceived }) => (
+  <StyledMessageItemWrap left={isReceived}>
+    <StyledMessageItem isReceived={isReceived}>{contents}</StyledMessageItem>
+  </StyledMessageItemWrap>
 );
 
 export default MessageItem;

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
 import { fetchingInitailData, popError } from './redux/actions';
 import Route from './routes';
 import { StoreState } from './models';
@@ -17,7 +18,13 @@ const Root: React.FC<RootProps> = ({ dispatch, errors }) => {
     window.alert(errors[0]);
     dispatch(popError());
   }
-  return <Route />;
+  return (
+    <BrowserRouter>
+      <div>
+        <Route />
+      </div>
+    </BrowserRouter>
+  );
 };
 function select({ errors }: StoreState) {
   return {
