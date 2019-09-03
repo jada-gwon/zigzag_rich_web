@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { selectChat, fetchingMessages } from '../redux/actions';
 import { StoreState, Message } from '../models';
 import MessageItem from '../components/MessageItem';
@@ -25,12 +26,15 @@ const StyledChatView = styled(SlideInOutRight)`
   background-color: #f9f9fb;
   position: relative;
   box-sizing: border-box;
+  overflow: hidden;
 `;
 
 const StyledMessageList = styled.ul`
-  padding: 20px 16px;
+  padding: 20px 16px 70px;
   flex: 1;
-  margin-bottom: 70px;
+  box-sizing: border-box;
+  overflow: scroll;
+  height: 100%;
 `;
 
 const FormWrap = styled.div`
@@ -39,6 +43,7 @@ const FormWrap = styled.div`
   bottom: 20px;
 `;
 
+const refList: React.RefObject<HTMLUListElement> = React.createRef();
 const Chat: React.FC<ChatProps> = ({
   match: {
     params: { id },
@@ -53,18 +58,27 @@ const Chat: React.FC<ChatProps> = ({
       dispatch(fetchingMessages(id) as any);
     }
   }, []);
+  useEffect(() => {
+    if (refList.current) {
+      refList.current.scrollTo(0, refList.current.scrollHeight);
+    }
+  });
+
   return (
     <StyledChatView>
-      <StyledMessageList>
-        {/* TODO: 스크롤 맨 아래에 가있게 만들기 */}
-        {messages.map((m) => (
-          <MessageItem
-            key={m.id}
-            contents={m.contents}
-            contentsType={m.contentsType}
-            isReceived={m.addresserId !== loginUserId}
-          />
-        ))}
+      <StyledMessageList ref={refList as any}>
+        <TransitionGroup component={null}>
+          {/* TODO: 스크롤 맨 아래에 가있게 만들기 */}
+          {messages.map((m) => (
+            <CSSTransition key={m.id} timeout={400}>
+              <MessageItem
+                contents={m.contents}
+                contentsType={m.contentsType}
+                isReceived={m.addresserId !== loginUserId}
+              />
+            </CSSTransition>
+          ))}
+        </TransitionGroup>
       </StyledMessageList>
       <FormWrap>
         <SendMessageForm chatId={id} />

@@ -62,7 +62,7 @@ const messageData = [
     chatId: chatGroupMocks[0].id,
     contentsType: ContentsType.text,
     isRead: false,
-    m: 4,
+    m: 1,
   },
   {
     contents: '출근했냐구?',
@@ -70,7 +70,7 @@ const messageData = [
     chatId: chatGroupMocks[0].id,
     contentsType: ContentsType.text,
     isRead: false,
-    m: 3,
+    m: 4,
   },
   {
     contents: '출근했니?',
@@ -78,7 +78,7 @@ const messageData = [
     chatId: chatGroupMocks[0].id,
     contentsType: ContentsType.text,
     isRead: true,
-    m: 1,
+    m: 3,
   },
   {
     contents: '오시는 길에 와인 몇병만 사다주세요.',

@@ -1,6 +1,15 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { ContentsType } from '../models';
+
+const scaleUp = keyframes`
+  from {
+    transform: scale(.23);
+  }
+  to {
+    transform: scale(1);
+  }
+`;
 
 interface MessageItemProps {
   contents: string;
@@ -12,6 +21,7 @@ const StyledMessageItemWrap = styled.li<{ left: boolean }>`
   padding: 5px 0;
   display: block;
   text-align: ${(props) => (props.left ? 'left' : 'right')};
+  transform-origin: top ${(props) => (props.left ? 'left' : 'right')};
 `;
 
 const StyledMessageItem = styled.div<{ isReceived: boolean }>`
@@ -32,6 +42,15 @@ const StyledMessageItem = styled.div<{ isReceived: boolean }>`
 const StyledImage = styled.img`
   width: 200px;
   border-radius: 12px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+  background-color: #47909b;
+`;
+
+const TransitionWrap = styled(StyledMessageItemWrap)`
+  &.enter,
+  &.enter-done {
+    animation: ${scaleUp} 0.2s forwards;
+  }
 `;
 
 const MessageItem: React.FC<MessageItemProps> = ({
@@ -41,16 +60,16 @@ const MessageItem: React.FC<MessageItemProps> = ({
 }) => {
   if (contentsType === ContentsType.image) {
     return (
-      <StyledMessageItemWrap left={isReceived}>
+      <TransitionWrap left={isReceived}>
         {/* eslint-disable-next-line jsx-a11y/alt-text */}
         <StyledImage src={contents} />
-      </StyledMessageItemWrap>
+      </TransitionWrap>
     );
   }
   return (
-    <StyledMessageItemWrap left={isReceived}>
+    <TransitionWrap left={isReceived}>
       <StyledMessageItem isReceived={isReceived}>{contents}</StyledMessageItem>
-    </StyledMessageItemWrap>
+    </TransitionWrap>
   );
 };
 
