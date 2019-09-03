@@ -20,20 +20,23 @@ interface ChatProps extends RouteChatProps {
 }
 
 const StyledChatView = styled(SlideInOutRight)`
-  height: 100%;
+  height: 100vh;
+  padding-top: 44px;
   background-color: #f9f9fb;
   position: relative;
+  box-sizing: border-box;
 `;
 
 const StyledMessageList = styled.ul`
   padding: 20px 16px;
   flex: 1;
+  margin-bottom: 70px;
 `;
 
 const FormWrap = styled.div`
   position: absolute;
   width: 100%;
-  bottom: 0;
+  bottom: 20px;
 `;
 
 const Chat: React.FC<ChatProps> = ({

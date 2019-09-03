@@ -139,7 +139,7 @@ const messageMocks: Message[] = messageData.map(
     const sentAt =
       h && m
         ? setMinutes(setHours(new Date(), h), m)
-        : subDays(new Date(), Math.floor(Math.random() * 10));
+        : subDays(new Date(), Math.floor(Math.random() * 6));
     return {
       ...d,
       id: uuidv4(),

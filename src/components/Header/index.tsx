@@ -7,11 +7,13 @@ import ChatListHeader from './ChatListHeader';
 import HambugerButon from './HambugerButon';
 
 const StyledHeader = styled.div`
-  flex: 0 0 44px;
+  height: 44px;
   background-color: #5b36ac;
   color: #fff;
   text-align: center;
-  position: relative;
+  position: absolute;
+  z-index: 1;
+  width: 100%;
 `;
 
 const Header: React.FC = () => {

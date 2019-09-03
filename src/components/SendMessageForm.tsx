@@ -4,7 +4,7 @@ import IconSend from '../assets/icon-send.svg';
 
 const StyledForm = styled.div`
   display: flex;
-  padding: 16px;
+  padding: 0 16px;
 `;
 
 const StyledTextarea = styled.textarea`

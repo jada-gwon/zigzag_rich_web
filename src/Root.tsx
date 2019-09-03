@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import styled from 'styled-components';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
@@ -12,11 +11,6 @@ type RootProps = {
   dispatch: Dispatch<any>;
   errors: string[];
 };
-const StyledRoot = styled.div`
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-`;
 
 const Root: React.FC<RootProps> = ({ dispatch, errors }) => {
   useEffect(() => {
@@ -28,10 +22,8 @@ const Root: React.FC<RootProps> = ({ dispatch, errors }) => {
   }
   return (
     <BrowserRouter>
-      <StyledRoot>
-        <Header />
-        <Route />
-      </StyledRoot>
+      <Header />
+      <Route />
     </BrowserRouter>
   );
 };

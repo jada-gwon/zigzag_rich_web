@@ -18,6 +18,7 @@ const PreviewWrapper = styled.div`
   flex: 1;
   padding: 0 13px 0 15px;
   align-self: center;
+  overflow: hidden;
 `;
 
 interface ChatItemProps {

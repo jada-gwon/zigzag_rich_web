@@ -15,7 +15,9 @@ interface ChatListProps {
 const StyledChatListView = styled(SlideInOutLeft)`
   overflow: scroll;
   padding-top: 10px;
-  height: 100%;
+  height: 100vh;
+  padding-top: 44px;
+  box-sizing: border-box;
   background-color: #f9f9fb;
 `;
 

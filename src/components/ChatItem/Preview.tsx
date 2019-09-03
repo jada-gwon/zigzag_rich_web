@@ -21,6 +21,7 @@ const StyledMessage = styled.div`
   width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
   color: #a4a6b0;
 `;
 
