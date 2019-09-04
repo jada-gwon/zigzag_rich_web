@@ -63,6 +63,50 @@ const messages = createReducer(
       ...payload,
     ],
     [actions.createMessage as any]: (state, payload) => [...state, payload],
+    [actions.setImageProgress as any]: (state: Message[], payload) => {
+      const targetIndex = state.findIndex((m) => m.id === payload.messageId);
+      if (targetIndex == null) {
+        return state;
+      }
+      return [
+        ...state.slice(0, targetIndex),
+        {
+          ...state[targetIndex],
+          imageProgress: payload.imageProgress,
+        },
+        ...state.slice(targetIndex + 1),
+      ];
+    },
+    [actions.requestSendMessage as any]: (state: Message[], payload) => {
+      const targetIndex = state.findIndex((m) => m.id === payload.messageId);
+      if (targetIndex == null) {
+        return state;
+      }
+      return [
+        ...state.slice(0, targetIndex),
+        {
+          ...state[targetIndex],
+          fetching: true,
+        },
+        ...state.slice(targetIndex + 1),
+      ];
+    },
+    [actions.requestSendMessageSuccess as any]: (state: Message[], payload) => {
+      const targetIndex = state.findIndex((m) => m.id === payload.messageId);
+      if (targetIndex == null) {
+        return state;
+      }
+      return [
+        ...state.slice(0, targetIndex),
+        {
+          ...state[targetIndex],
+          fetching: false,
+          id: payload.newId,
+          createAt: payload.createAt,
+        },
+        ...state.slice(targetIndex + 1),
+      ];
+    },
   },
   [],
 );

@@ -18,6 +18,8 @@ export interface Message {
   addresserId: string;
   chatId: string;
   readBy: string[];
+  fetching: boolean;
+  imageProgress?: number;
 }
 
 export interface ChatGroup {

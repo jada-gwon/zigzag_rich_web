@@ -74,6 +74,7 @@ const Chat: React.FC<ChatProps> = ({
                 contents={m.contents}
                 contentsType={m.contentsType}
                 isReceived={m.addresserId !== loginUserId}
+                imageProgress={m.imageProgress}
               />
             </CSSTransition>
           ))}

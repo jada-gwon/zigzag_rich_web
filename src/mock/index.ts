@@ -141,6 +141,7 @@ const messageMocks: Message[] = messageData.map(({ m = 0, isRead, ...d }) => {
     createAt: sentAt,
     readBy: isRead ? [d.addresserId, loginUserMock.id] : [d.addresserId],
     failed: false,
+    fetching: false,
   };
 });
 

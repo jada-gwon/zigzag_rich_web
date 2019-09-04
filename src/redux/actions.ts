@@ -4,9 +4,10 @@ import { createAction } from 'redux-act';
 import { InitialData, Message, StoreState, ContentsType } from '../models';
 import fetchInitialData from '../api/fetchInitialData';
 import fetchMessages from '../api/fetchMessages';
+import postSendMessage from '../api/postSendMessage';
 
 export const fetchInitailDataSuccess = createAction(
-  'api request successed fetching chat list',
+  'Api request for fetching chat list is succeeded',
   (initialData: InitialData) => initialData,
 );
 
@@ -19,7 +20,7 @@ export function fetchingInitailData() {
 }
 
 export const selectChatWithLoginUser = createAction(
-  'select chat',
+  'Select a chat from chat list',
   (chatId: string, loginUserId: string) => ({
     chatId,
     loginUserId,
@@ -34,16 +35,16 @@ export function selectChat(chatId: string) {
 }
 
 export const fetchMessagesSuccess = createAction(
-  'api request successed fetching message list',
+  'Api request for fetching message list is succeeded',
   (messages: Message[]) => messages,
 );
 
 export const pushError = createAction(
-  'push error',
+  'Push error to stack',
   (message: string) => message,
 );
 
-export const popError = createAction('pop error');
+export const popError = createAction('Pop error from stack');
 
 export function fetchingMessages(chatId: string) {
   return async function(dispatch: Dispatch<any>) {
@@ -57,8 +58,27 @@ export function fetchingMessages(chatId: string) {
 }
 
 export const createMessage = createAction(
-  'select chat',
+  'Create a message and add it to a chat window',
   (message: Message) => message,
+);
+
+export const setImageProgress = createAction(
+  'Set the image uploader progress bar ratio',
+  (messageId: string, imageProgress: number) => ({ messageId, imageProgress }),
+);
+
+export const requestSendMessage = createAction(
+  'Send api request to send a message',
+  (messageId: string) => ({ messageId }),
+);
+
+export const requestSendMessageSuccess = createAction(
+  'Api request for sending message is succeeded',
+  (messageId: string, newId: string, createAt: Date) => ({
+    messageId,
+    newId,
+    createAt,
+  }),
 );
 
 export function sendMessage(
@@ -67,16 +87,27 @@ export function sendMessage(
   contentsType: ContentsType,
 ) {
   return function(dispatch: Dispatch<any>, getStore: () => StoreState) {
-    const { loginUser } = getStore();
+    const {
+      loginUser: { id: addresserId },
+    } = getStore();
     const message: Message = {
       id: uuidv4(),
       sentAt: new Date(),
       contentsType,
       contents,
-      addresserId: loginUser.id,
+      addresserId,
       chatId,
-      readBy: [loginUser.id],
+      readBy: [addresserId],
+      fetching: false,
+      imageProgress: 0,
     };
     dispatch(createMessage(message));
+    window.setTimeout(() => {
+      dispatch(setImageProgress(message.id, 1));
+      dispatch(requestSendMessage(message.id));
+      postSendMessage({ chatId, contents, contentsType, addresserId }).then(
+        (data) => requestSendMessageSuccess(message.id, data.id, data.createAt),
+      );
+    }, 1000);
   };
 }
