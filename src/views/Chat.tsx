@@ -53,7 +53,6 @@ const Chat: React.FC<ChatProps> = ({
   loginUserId,
 }) => {
   useEffect(() => {
-    dispatch(selectChat(id) as any);
     if (messages.length === 0) {
       dispatch(fetchingMessages(id) as any);
     }
@@ -62,6 +61,7 @@ const Chat: React.FC<ChatProps> = ({
     if (refList.current) {
       refList.current.scrollTo(0, refList.current.scrollHeight);
     }
+    dispatch(selectChat(id) as any);
   });
 
   return (

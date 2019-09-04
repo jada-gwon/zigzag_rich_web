@@ -50,8 +50,12 @@ const StyledButton = styled.button`
   background: transparent;
   padding: 0;
   cursor: pointer;
+  transition: transform 0.1s ease;
   :focus {
     outline: none;
+  }
+  :active {
+    transform: rotate(-8deg) scale(1.1);
   }
 `;
 
