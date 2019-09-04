@@ -102,12 +102,21 @@ export function sendMessage(
       imageProgress: 0,
     };
     dispatch(createMessage(message));
-    window.setTimeout(() => {
-      dispatch(setImageProgress(message.id, 1));
+    if (message.contentsType === ContentsType.text) {
       dispatch(requestSendMessage(message.id));
       postSendMessage({ chatId, contents, contentsType, addresserId }).then(
         (data) => requestSendMessageSuccess(message.id, data.id, data.createAt),
       );
-    }, 1000);
+    } else {
+      // instead of image processing api
+      window.setTimeout(() => {
+        dispatch(setImageProgress(message.id, 1));
+        dispatch(requestSendMessage(message.id));
+        postSendMessage({ chatId, contents, contentsType, addresserId }).then(
+          (data) =>
+            requestSendMessageSuccess(message.id, data.id, data.createAt),
+        );
+      }, 1000);
+    }
   };
 }
