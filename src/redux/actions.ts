@@ -78,7 +78,5 @@ export function sendMessage(
       readBy: [loginUser.id],
     };
     dispatch(createMessage(message));
-
-    // TODO: send server requesr;
   };
 }
