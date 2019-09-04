@@ -4,6 +4,13 @@ import { Transition } from 'react-transition-group';
 import { ContentsType } from '../models';
 import IconClose from '../assets/icon-close.svg';
 
+interface MessageItemProps {
+  contents: string;
+  contentsType: ContentsType;
+  isReceived: boolean;
+  imageProgress?: number;
+}
+
 const scaleUp = keyframes`
   from {
     transform: scale(.23);
@@ -19,21 +26,6 @@ const scaleUp = keyframes`
   }
 `;
 
-interface MessageItemProps {
-  contents: string;
-  contentsType: ContentsType;
-  isReceived: boolean;
-  imageProgress?: number;
-}
-
-const StyledMessageItemWrap = styled.li<{ left: boolean }>`
-  padding: 5px 0;
-  display: block;
-  text-align: ${(props) => (props.left ? 'left' : 'right')};
-  transform-origin: top ${(props) => (props.left ? 'left' : 'right')};
-  position: relative;
-`;
-
 const StyledMessageItem = styled.div<{ isReceived: boolean }>`
   display: inline-block;
   border-radius: 12px;
@@ -47,6 +39,14 @@ const StyledMessageItem = styled.div<{ isReceived: boolean }>`
     props.isReceived
       ? '0 2px 4px 0 rgba(0, 0, 0, 0.1);'
       : '0 2px 4px 0 rgba(91, 56, 177, 0.4);'};
+`;
+
+const StyledMessageItemWrap = styled.li<{ left: boolean }>`
+  padding: 5px 0;
+  display: block;
+  text-align: ${(props) => (props.left ? 'left' : 'right')};
+  transform-origin: top ${(props) => (props.left ? 'left' : 'right')};
+  position: relative;
 `;
 
 const TransitionWrap = styled(StyledMessageItemWrap)`
@@ -113,7 +113,7 @@ const MessageItem: React.FC<MessageItemProps> = ({
 }) => {
   if (contentsType === ContentsType.image) {
     return (
-      <TransitionWrap left={isReceived}>
+      <TransitionWrap left={isReceived} className="message-item">
         <ImageWrap>
           {/* eslint-disable-next-line jsx-a11y/alt-text */}
           <StyledImage src={contents} />
@@ -135,7 +135,7 @@ const MessageItem: React.FC<MessageItemProps> = ({
     );
   }
   return (
-    <TransitionWrap left={isReceived}>
+    <TransitionWrap left={isReceived} className="message-item">
       <StyledMessageItem isReceived={isReceived}>{contents}</StyledMessageItem>
     </TransitionWrap>
   );

@@ -80,8 +80,29 @@ const ImageItem: React.FC<{
     >
       <TransitionImage>
         <StyledButton
-          onClick={() => {
-            onClick(src);
+          onClick={(e) => {
+            const { left, top } = (e.target as Element).getBoundingClientRect();
+            const img = document.createElement('img');
+            img.setAttribute('src', src);
+            img.style.width = '46px';
+            img.style.height = '46px';
+            img.style.position = 'fixed';
+            img.style.left = `${left}px`;
+            img.style.top = `${top}px`;
+            img.style.transform = 'rotate(-8deg) scale(1.1)';
+            img.style.transition = '300ms ease';
+            img.style.borderRadius = '5px';
+            document.body.append(img);
+            const { bottom, right } = (document as any)
+              .querySelector('.message-item:last-child')
+              .getBoundingClientRect();
+            img.style.left = `${right - 46}px`;
+            img.style.top = `${bottom + 5}px`;
+            img.style.transform = '';
+            window.setTimeout(() => {
+              img.remove();
+              onClick(src);
+            }, 300);
           }}
         >
           <StyledImageWrap>
