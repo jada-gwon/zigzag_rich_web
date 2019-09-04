@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
@@ -17,7 +17,9 @@ type RouteChatProps = RouteComponentProps<{
 interface ChatProps extends RouteChatProps {
   dispatch: Dispatch<any>;
   messages: Message[];
+  messageCount: number;
   loginUserId: string;
+  load: boolean;
 }
 
 const StyledChatView = styled(SlideInOutRight)`
@@ -43,6 +45,14 @@ const FormWrap = styled.div`
   bottom: 20px;
 `;
 
+function usePrevious(value: any) {
+  const ref = useRef();
+  useEffect(() => {
+    ref.current = value as any;
+  });
+  return ref.current;
+}
+
 const refList: React.RefObject<HTMLUListElement> = React.createRef();
 const Chat: React.FC<ChatProps> = ({
   match: {
@@ -50,20 +60,27 @@ const Chat: React.FC<ChatProps> = ({
   },
   dispatch,
   messages,
+  messageCount,
   loginUserId,
+  load,
 }) => {
   useEffect(() => {
     if (messages.length === 0) {
       dispatch(fetchingMessages(id) as any);
     }
   }, []);
+  const prev = usePrevious({ messageCount }) as any;
   useEffect(() => {
-    if (refList.current) {
-      refList.current.scrollTo(0, refList.current.scrollHeight);
-    }
     dispatch(selectChat(id) as any);
-  });
-
+  }, [load]);
+  useEffect(() => {
+    if (prev && prev.messageCount !== messageCount) {
+      dispatch(selectChat(id) as any);
+      if (refList.current) {
+        refList.current.scrollTo(0, refList.current.scrollHeight);
+      }
+    }
+  }, [messageCount]);
   return (
     <StyledChatView>
       <StyledMessageList ref={refList as any}>
@@ -87,12 +104,18 @@ const Chat: React.FC<ChatProps> = ({
   );
 };
 
-function select({ messages, loginUser }: StoreState, props: RouteChatProps) {
+function select(
+  { messages, loginUser, load }: StoreState,
+  props: RouteChatProps,
+) {
+  const messagesInChat = messages
+    .filter((message) => message.chatId === props.match.params.id)
+    .sort((a, b) => a.sentAt.getTime() - b.sentAt.getTime());
   return {
-    messages: messages
-      .filter((message) => message.chatId === props.match.params.id)
-      .sort((a, b) => a.sentAt.getTime() - b.sentAt.getTime()),
+    messages: messagesInChat,
+    messageCount: messagesInChat.length,
     loginUserId: loginUser.id,
+    load,
   };
 }
 

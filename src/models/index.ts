@@ -38,6 +38,7 @@ export interface StoreState {
   messages: Message[];
   loginUser: User;
   errors: string[];
+  load: boolean;
 }
 
 export type InitialData = { chats: ChatRoom[]; users: User[] };

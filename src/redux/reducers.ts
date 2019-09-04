@@ -123,12 +123,20 @@ const errors = createReducer(
   [],
 );
 
+const load = createReducer(
+  {
+    [actions.fetchInitailDataSuccess as any]: () => true,
+  },
+  false,
+);
+
 const chatApp = combineReducers({
   loginUser,
   chats,
   users,
   messages,
   errors,
+  load,
 });
 
 export default chatApp;
